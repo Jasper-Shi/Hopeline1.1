@@ -15,13 +15,15 @@ namespace Hopeline.Service.CoreServices
         private readonly IRepository<Community> _communityRepo;
         private readonly IRepository<Topic> _topicRepo;
         private readonly IRepository<Resource_Category> _resourceCategoryRepo;
-        public CommonResourceService(IRepository<Resource> resourceRepo, IRepository<Community> communityRepo, IRepository<Topic> topicRepo, IRepository<Resource_Category> resourceCategoryRepo)
+        private readonly IBusinessManager _businessManager;
+        public CommonResourceService(IRepository<Resource> resourceRepo, IRepository<Community> communityRepo, IRepository<Topic> topicRepo, IRepository<Resource_Category> resourceCategoryRepo,
+            IBusinessManager businessManager)
         {
             _resourceRepo = resourceRepo;
             _communityRepo = communityRepo;
             _topicRepo = topicRepo;
             _resourceCategoryRepo = resourceCategoryRepo;
-
+            _businessManager = businessManager;
         }
         public bool addCommunity(CommunityModel obj)
         {
@@ -59,7 +61,7 @@ namespace Hopeline.Service.CoreServices
                     desc = obj.desc,
                     url = obj.url,
                     enabled_flg = obj.enabled_flg,
-                    resource_categoryId = obj.resourceCategoryId
+                    resource_categoryId = obj.resource_CategoryId
                 };
                 _resourceRepo.insert(o);
                 return true;
@@ -78,7 +80,8 @@ namespace Hopeline.Service.CoreServices
                 {
                     user_code = obj.user_code,
                     category_name = obj.category_name,
-                    category_decription = obj.category_decription
+                    category_decription = obj.category_decription,
+                    enable_flg = obj.enable_flg
                 };
                 _resourceCategoryRepo.insert(o);
                 return true;
@@ -146,9 +149,10 @@ namespace Hopeline.Service.CoreServices
                     desc = obj.desc,
                     url = obj.url,
                     enabled_flg = obj.enabled_flg,
-                    resource_categoryId = obj.resourceCategoryId
+                    resource_categoryId = obj.resource_CategoryId
                 };
                 _resourceRepo.delete(o);
+                _resourceRepo.save();
                 return true;
             }
             catch (System.Exception)
@@ -163,11 +167,15 @@ namespace Hopeline.Service.CoreServices
             {
                 var o = new Resource_Category
                 {
+                    Id = obj.Id,
+                    dateAdded = obj.dateAdded,
                     user_code = obj.user_code,
                     category_name = obj.category_name,
-                    category_decription = obj.category_decription
+                    category_decription = obj.category_decription,
+                    enable_flg = obj.enable_flg
                 };
                 _resourceCategoryRepo.delete(o);
+                _resourceCategoryRepo.save();
                 return true;
             }
             catch (System.Exception)
@@ -223,7 +231,24 @@ namespace Hopeline.Service.CoreServices
 
         public bool editResourceCategory(ResourceCategoryModel obj)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var o = new Resource_Category
+                {
+                    Id = obj.Id,
+                    dateAdded = obj.dateAdded,
+                    user_code = obj.user_code,
+                    category_name = obj.category_name,
+                    category_decription = obj.category_decription,
+                    enable_flg = obj.enable_flg
+                };
+                _resourceCategoryRepo.update(o);
+                _resourceCategoryRepo.save();
+                return true;
+            }catch(Exception ex)
+            {
+                return false;
+            }
         }
 
         public bool editTopic(TopicModel obj)
@@ -269,7 +294,8 @@ namespace Hopeline.Service.CoreServices
                     dateAdded = c.dateAdded,
                     user_code = c.user_code,
                     category_name = c.category_name,
-                    category_decription = c.category_decription
+                    category_decription = c.category_decription,
+                    enable_flg = c.enable_flg
                 });
             }
             catch
@@ -290,7 +316,8 @@ namespace Hopeline.Service.CoreServices
                     enabled_flg = c.enabled_flg,
                     title = c.title,
                     desc = c.desc,
-                    url = c.url
+                    url = c.url,
+                    resource_CategoryId = c.resource_categoryId
                 });
             }
             catch (System.Exception)
@@ -357,7 +384,7 @@ namespace Hopeline.Service.CoreServices
                     enabled_flg = o.enabled_flg,
                     url = o.url,
                     user_code = o.user_code,
-                    resourceCategoryId=o.resource_categoryId
+                    resource_CategoryId=o.resource_categoryId
                 };
                 return res;
             }
@@ -378,7 +405,8 @@ namespace Hopeline.Service.CoreServices
                     dateAdded = o.dateAdded,
                     user_code = o.user_code,
                     category_name = o.category_name,
-                    category_decription = o.category_decription
+                    category_decription = o.category_decription,
+                    enable_flg = o.enable_flg
                 };
                 return res;
             }
@@ -463,6 +491,16 @@ namespace Hopeline.Service.CoreServices
             {
                 return false;
             }
+        }
+
+        public void setResourceCategoryEnableFlg(int id, int flg)
+        {
+            _businessManager.setResourceCategoryEnableFlg(id, flg);
+        }
+
+        public void setResourceActive(int id, int flg)
+        {
+            _businessManager.setResourceActive(id, flg);
         }
     }
 }

@@ -12,5 +12,6 @@ namespace Hopeline.DataAccess.Interfaces
         T update(T o);
         bool delete(T o);
         string save();
+        
     }
 }

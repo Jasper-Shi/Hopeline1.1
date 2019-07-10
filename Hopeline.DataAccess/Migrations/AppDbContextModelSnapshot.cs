@@ -47,33 +47,13 @@ namespace Hopeline.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("communities");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Descrption for community 1",
-                            enabled_flg = 1,
-                            title = "Community 1",
-                            url = "www.google.ca",
-                            user_code = "comm001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Descrption for community 2",
-                            enabled_flg = 0,
-                            title = "Community 2",
-                            url = "www.google.ca",
-                            user_code = "comm002"
-                        });
                 });
 
             modelBuilder.Entity("Hopeline.DataAccess.Entities.Resource", b =>
                 {
-                    b.Property<int>("Id");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("dateAdded");
 
@@ -98,42 +78,9 @@ namespace Hopeline.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("resources");
+                    b.HasIndex("resource_categoryId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Descrpition for the resource",
-                            enabled_flg = 1,
-                            resource_categoryId = 1,
-                            title = "Some resources",
-                            url = "www.google.ca",
-                            user_code = "res001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Description for the res2",
-                            enabled_flg = 0,
-                            resource_categoryId = 2,
-                            title = "Some title for res2",
-                            url = "www.google.ca",
-                            user_code = "res002"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Description for the res3",
-                            enabled_flg = 0,
-                            resource_categoryId = 3,
-                            title = "Some title for res3",
-                            url = "www.google.ca",
-                            user_code = "res003"
-                        });
+                    b.ToTable("resources");
                 });
 
             modelBuilder.Entity("Hopeline.DataAccess.Entities.Resource_Category", b =>
@@ -149,38 +96,14 @@ namespace Hopeline.DataAccess.Migrations
 
                     b.Property<string>("dateAdded");
 
+                    b.Property<int>("enable_flg");
+
                     b.Property<string>("user_code")
                         .IsRequired();
 
                     b.HasKey("Id");
 
                     b.ToTable("resource_categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            category_decription = "depression description",
-                            category_name = "depression",
-                            dateAdded = "06-24-2019 19:03:03",
-                            user_code = "depre001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            category_decription = "bullying description",
-                            category_name = "bullying",
-                            dateAdded = "06-24-2019 19:03:03",
-                            user_code = "bully001"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            category_decription = "school-related description",
-                            category_name = "school-related",
-                            dateAdded = "06-24-2019 19:03:03",
-                            user_code = "school001"
-                        });
                 });
 
             modelBuilder.Entity("Hopeline.DataAccess.Entities.Topic", b =>
@@ -206,34 +129,232 @@ namespace Hopeline.DataAccess.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("topics");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Despression is a mental disease",
-                            enabled_flg = 1,
-                            topic_name = "Depression",
-                            user_code = "Drep001"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            dateAdded = "06-24-2019 19:03:03",
-                            desc = "Bullying is bad",
-                            enabled_flg = 1,
-                            topic_name = "Bullying",
-                            user_code = "Bullying001"
-                        });
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("AccessFailedCount");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("LockoutEnabled");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("PhoneNumber");
+
+                    b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<string>("SecurityStamp");
+
+                    b.Property<bool>("TwoFactorEnabled");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Hopeline.DataAccess.Entities.HopelineUser", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.HasDiscriminator().HasValue("HopelineUser");
                 });
 
             modelBuilder.Entity("Hopeline.DataAccess.Entities.Resource", b =>
                 {
                     b.HasOne("Hopeline.DataAccess.Entities.Resource_Category", "resource_category")
                         .WithMany("resources")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("resource_categoryId")
                         .HasConstraintName("Foreign_key_resource_category")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

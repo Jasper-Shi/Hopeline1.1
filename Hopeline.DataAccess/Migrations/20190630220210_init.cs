@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hopeline.DataAccess.Migrations
 {
-    public partial class addRes_cate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,17 +73,17 @@ namespace Hopeline.DataAccess.Migrations
                     url = table.Column<string>(nullable: false),
                     title = table.Column<string>(maxLength: 50, nullable: false),
                     desc = table.Column<string>(nullable: true),
-                    resource_categoryId = table.Column<int>(nullable: true)
+                    resource_categoryId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_resources", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_resources_resource_categories_resource_categoryId",
+                        name: "Foreign_key_resource_category",
                         column: x => x.resource_categoryId,
                         principalTable: "resource_categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

@@ -1,13 +1,11 @@
 ﻿using Hopeline.DataAccess.Entities;
-using Hopeline.DataAccess.Seeds;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Hopeline.DataAccess.DatabaseContext
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext
     {
         //public AppDbContext()
         //{
@@ -21,6 +19,7 @@ namespace Hopeline.DataAccess.DatabaseContext
         public DbSet<Community> communities { get; set; }
         public DbSet<Topic> topics { get; set; }
         public DbSet<Resource_Category> resource_categories { get; set; }
+        public DbSet<HopelineUser> hopelineUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -34,6 +33,17 @@ namespace Hopeline.DataAccess.DatabaseContext
             modelBuilder.Entity<Community>();
             modelBuilder.Entity<Topic>();
             modelBuilder.Entity<Resource_Category>();
+            modelBuilder.Entity<HopelineUser>();
+        }
+    }
+
+    public class ToDoContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
+            builder.UseSqlServer("server=desktop-guuo2i0\\sqlexpress;database=A_HOPELINE_DEV;Trusted_Connection=true");
+            return new AppDbContext(builder.Options);
         }
     }
 }

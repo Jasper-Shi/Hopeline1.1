@@ -14,7 +14,7 @@ namespace Hopeline.Service.Models
         public string desc { get; set; }
         public string url { get; set; }
 
-        public int resourceCategoryId { get; set; }
+        public int resource_CategoryId { get; set; }
         public ResourceCategoryModel resourceCategory { get; set; }
     }
 }

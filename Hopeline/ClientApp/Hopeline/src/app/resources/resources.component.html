@@ -2,32 +2,52 @@
   <div class="container-fluid fullh">
     <div class="row">
       <div class="col-3 fullh">
-        <ul class="nav nav-tabs">
-          <li class="active">
-            <button data-target="#1" data-toggle="tab">Overview</button>
+        <ul class="nav nav-tabs vertical-list" role="tablist" style="display:block">
+          <li class="nav-item" *ngFor="let rc of resCates">
+            <ng-container *ngIf="rc.enable_flg==1">
+              <a class="nav-link" href="#{{rc.user_code}}" role="tab" data-toggle="tab" (click)="getClickedResCate(rc.id)">{{rc.user_code + " " + rc.category_name}}</a>
+            </ng-container>
           </li>
-          <li>
-            <button data-target="#1" data-toggle="tab">Without clearfix</button>
+          <!--<li class="nav-item">
+            <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">buzz</a>
           </li>
-          <li>
-            <button data-target="#3" data-toggle="tab">Solution</button>
-          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#references" role="tab" data-toggle="tab">references</a>
+          </li>-->
+          
         </ul>
+        <!--<div class="vertical-list" role="tablist">
+          <a class="nav-link active" href="#profile" role="tab" data-toggle="tab">profile</a>
+          <a class="nav-link" href="#buzz" role="tab" data-toggle="tab">buzz</a>
+          <a class="nav-link" href="#references" role="tab" data-toggle="tab">references</a>
+        </div>-->
       </div>
       <div class="col-9 fullh">
-        <div class="tab-content ">
-          <div class="tab-pane active" id="1">
-            <h3>Standard tab panel created on bootstrap using nav-tabs</h3>
-          </div>
-          <div class="tab-pane" id="2">
-            <h3>Notice the gap between the content and tab after applying a background color</h3>
-          </div>
-          <div class="tab-pane" id="3">
-            <h3>add clearfix to tab-content (see the css)</h3>
+        <!-- Tab panes -->
+        <div class="tab-content">
+          <div role="tabpanel" class="tab-pane fade" *ngFor="let rc of resCates" id={{rc.user_code}}>
+            <ng-container *ngIf="selectedRes; else show_welcome">
+              <div class="col-3" *ngFor="let r of selectedRes">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="..." alt="Card image cap">
+                  <div class="card-body">
+                    <h5 class="card-title">{{r.title}}</h5>
+                    <p class="card-text">{{r.desc}}</p>
+                    <a (click)="redirectUser(r.url)" class="btn btn-primary">Go somewhere</a>
+                  </div>
+                </div>
+              </div>
+            </ng-container>
+            <ng-template #show_welcome>
+              <div class="col-12">
+                <h1>Welcome to Resources!</h1>
+              </div>
+            </ng-template>
           </div>
         </div>
+      </div>
 
       </div>
     </div>
   </div>
-</div>
+

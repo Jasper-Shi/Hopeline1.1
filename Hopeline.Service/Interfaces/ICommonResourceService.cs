@@ -31,5 +31,7 @@ namespace Hopeline.Service.Interfaces
         string saveResourec();
         bool saveResourceCates();
         bool saveCommunity();
+        void setResourceCategoryEnableFlg(int id, int flg);
+        void setResourceActive(int id, int flg);
     }
 }

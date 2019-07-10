@@ -100,7 +100,7 @@ namespace Hopeline.Controllers
                     url = "www.google.ca",
                     title = "Some resources",
                     desc = "Descrpition for the resource",
-                    resourceCategoryId = 1
+                    resource_CategoryId = 1
                 },
                 new ResourceModel
                 {
@@ -110,7 +110,7 @@ namespace Hopeline.Controllers
                     url = "www.google.ca",
                     title = "Some title for res2",
                     desc = "Description for the res2",
-                    resourceCategoryId = 2
+                    resource_CategoryId = 2
                 },
                 new ResourceModel
                 {
@@ -120,7 +120,7 @@ namespace Hopeline.Controllers
                     url = "www.google.ca",
                     title = "Some title for res3",
                     desc = "Description for the res3",
-                    resourceCategoryId = 3
+                    resource_CategoryId = 3
                 }
             };
             foreach(var item in resources)

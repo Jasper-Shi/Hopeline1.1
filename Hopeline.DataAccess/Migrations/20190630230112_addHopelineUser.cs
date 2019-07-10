@@ -2,22 +2,22 @@
 
 namespace Hopeline.DataAccess.Migrations
 {
-    public partial class addRes_cate6 : Migration
+    public partial class addHopelineUser : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<int>(
-                name: "resource_categoryId",
-                table: "resources",
+            migrationBuilder.AddColumn<string>(
+                name: "Discriminator",
+                table: "AspNetUsers",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "resource_categoryId",
-                table: "resources");
+                name: "Discriminator",
+                table: "AspNetUsers");
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Hopeline.Service.Models
         public string user_code { get; set; }
         public string category_name { get; set; }
         public string category_decription { get; set; }
+        public int enable_flg { get; set; }
         public IEnumerable<ResourceModel> resources { get; set; }
     }
 }

@@ -1,0 +1,169 @@
+<div class="container">
+  <!--Header-->
+  <div class="row head">
+    <div class="col-4 fullwh"></div>
+    <div class="col-4 alignc">
+      <h4>Resource Category Management</h4>
+    </div>
+    <div class="col-4 alignr">
+      <a routerLink="../">
+        <img src="../../assets/system_image/back 1.png" class="inline icon-size" style="width:40px; margin-bottom:10px;" />&nbsp;&nbsp;Back
+      </a>
+    </div>
+  </div>
+  <!--Setting Bar-->
+  <form #f="ngForm" (ngSubmit)="addResCate(f)">
+    <div class="row settingBar">
+      <div class="col-4">
+        <label for="usercode">User&nbsp;Code:</label>
+        <input id="usercode" class="inputBar" type="text" maxlength="30" [(ngModel)]="resCateAdd.user_code" name="usercode" required/>
+      </div>
+      <div class="col-4">
+        <label>Is&nbsp;Active:</label>
+        <label class="switch">
+          <input type="checkbox" [checked]="resCateAdd.enable_flg==1 ? true : false" class="icon-size" (click)="enableRc($event)">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div class="col-4 alignc">
+        <button type="submit" class="btn btn-primary" [disabled]="!f.valid">Add</button>
+      </div>
+      <div class="col-4">
+        <label for="categoryname">Category&nbsp;Name:</label>
+        <input id="categoryname" class="inputBar" type="text" maxlength="50" [(ngModel)]="resCateAdd.category_name" name="categoryname" required/>
+      </div>
+      <div class="col-4">
+        <label for="categorydesc">Category&nbsp;Description:</label>
+        <button type="button" class="nobdrbtn" data-toggle="modal" data-target="#addDesc" style="background-color:whitesmoke">
+          <img class="icon-size inline" src="../../assets/system_image/plus 2.png" />
+        </button>
+      </div>
+      <div class="col-4 fullwh">
+
+      </div>
+    </div>
+  </form>
+  <!--List-->
+  <div class="row">
+    <div class="col-11">
+      <input type="text" class="inputBarWhite fullw" maxlength="50" (keyup)="searchList($event)" />
+    </div>
+    <div class="col-1">
+      <img class="icon-size" src="../../assets/system_image/search 1.png" />
+    </div>
+    <div class="col-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>User&nbsp;Code</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>IsActive</th>
+            <th>Manage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let rc of filteredResCatesList">
+            <td>{{rc.user_code}}</td>
+            <td>{{rc.category_name}}</td>
+            <td>
+              <button class="nobdrbtn" (click)="findDesc(rc.id)" data-toggle="modal" data-target="#seeDesc">See Details</button>
+            </td>
+            <td>
+              <label class="switch">
+                <input type="checkbox" [checked]="rc.enable_flg==1 ? true : false" class="icon-size" (click)="setFlg($event,rc)">
+                <span class="slider round"></span>
+              </label>              
+            </td>
+            <td>
+              <button class="nobdrbtn" (click)="findDesc(rc.id)" data-toggle="modal" data-target="#editResCate"><img src="../../assets/system_image/add new 2.png" class="icon-size" /></button>
+              <button class="nobdrbtn" (click)="deleteResCate(rc.id)"><img src="../../assets/system_image/delete.png" class="icon-size" /></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+
+<!-- Add Description Modal -->
+<div class="modal fade" id="addDesc" tabindex="-1" role="dialog" aria-labelledby="addDescLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Write Description</h5>
+      </div>
+      <div class="modal-body">
+        <textarea class="fullwh" [(ngModel)]="resCateAdd.category_decription" autofocus>
+
+        </textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="discardDesc()">Close</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Description Modal -->
+<div class="modal fade" id="editResCate" tabindex="-1" role="dialog" aria-labelledby="editResCateLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form #ef="ngForm" (ngSubmit)="editResCate" *ngIf="selectedResCate">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit {{selectedResCate.category_name}}</h5>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <label for="resCateEditUc">User&nbsp;Code:</label>
+                <input class="inputBarWhite" type="text" maxlength="30" name="resCateEditUc" id="resCateEditUc" [(ngModel)]="selectedResCate.user_code" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <label for="resCateEditCn">Category&nbsp;Name:</label>
+                <input class="inputBarWhite" type="text" maxlength="50" name="resCateEditCn" id="resCateEditCn" [(ngModel)]="selectedResCate.category_name" required/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <textarea class="fullwh" name="resCateEditDesc" [(ngModel)]="selectedResCate.category_decription">
+
+                </textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" (click)="editResCate()" [disabled]="!ef.valid" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Description Modal -->
+<div class="modal fade" id="seeDesc" tabindex="-1" role="dialog" aria-labelledby="seeDescLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document" *ngIf="selectedResCate">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>{{selectedResCate.category_decription}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

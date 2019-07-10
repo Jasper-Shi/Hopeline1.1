@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\Hopeline\src\app\interfaces\IResource.ts" />
+    <None Remove="ClientApp\Hopeline\src\app\interfaces\IResourceCategory.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
   </ItemGroup>
@@ -15,6 +21,16 @@
   <ItemGroup>
     <ProjectReference Include="..\Hopeline.DataAccess\Hopeline.DataAccess.csproj" />
     <ProjectReference Include="..\Hopeline.Service\Hopeline.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\Hopeline\src\app\resCommService\" />
+    <Folder Include="ClientApp\Hopeline\src\assets\system_image\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\Hopeline\src\app\interfaces\IResource.ts" />
+    <TypeScriptCompile Include="ClientApp\Hopeline\src\app\interfaces\IResourceCategory.ts" />
   </ItemGroup>
 
 </Project>

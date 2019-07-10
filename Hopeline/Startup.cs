@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -35,8 +36,16 @@ namespace Hopeline
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HopelineDbConnection")));
             //services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("HopelineDbConnection")));
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<AppDbContext>();
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient<IBusinessManager, BusinessManager>();
             services.AddTransient<ICommonResourceService, CommonResourceService>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowMyOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +64,9 @@ namespace Hopeline
                     await context.Response.WriteAsync("Hello World!");
                 });
             }
-
+            app.UseCors("AllowMyOrigin");
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseMvc();
         }
     }

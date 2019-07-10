@@ -21,8 +21,11 @@ namespace Hopeline.DataAccess.Repositories
         {
             try
             {
-                _entities.Remove(obj);
-                _dbContext.SaveChanges();
+                //_entities.Remove(obj);
+                //_dbContext.SaveChanges();
+                _entities.Attach(obj);
+                var tmp = _dbContext.Entry(obj);
+                tmp.State = Microsoft.EntityFrameworkCore.EntityState.Deleted;
                 return true;
             }
             catch
@@ -59,9 +62,12 @@ namespace Hopeline.DataAccess.Repositories
 
         public T update(T obj)
         {
-            var tmp = _entities.Attach(obj);
+            //var tmp = _entities.Attach(obj);
+            //tmp.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            //_dbContext.SaveChanges();
+            _entities.Attach(obj);
+            var tmp = _dbContext.Entry(obj);
             tmp.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            _dbContext.SaveChanges();
             return obj;
         }
         public string save()
@@ -75,5 +81,7 @@ namespace Hopeline.DataAccess.Repositories
                 return ex.ToString();
             }
         }
+
+
     }
 }

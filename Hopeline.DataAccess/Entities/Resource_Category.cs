@@ -13,6 +13,7 @@ namespace Hopeline.DataAccess.Entities
         [Required]
         public string category_name { get; set; }
         public string category_decription { get; set; }
+        public int enable_flg { get; set; }
         public ICollection<Resource> resources { get; set; }
     }
 }

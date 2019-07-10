@@ -2,22 +2,22 @@
 
 namespace Hopeline.DataAccess.Migrations
 {
-    public partial class addRes_cate1 : Migration
+    public partial class addEnable_flg : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<int>(
-                name: "resource_category_id",
-                table: "resources",
+                name: "enable_flg",
+                table: "resource_categories",
                 nullable: false,
-                defaultValue: 0);
+                defaultValue: 1);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "resource_category_id",
-                table: "resources");
+                name: "enable_flg",
+                table: "resource_categories");
         }
     }
 }

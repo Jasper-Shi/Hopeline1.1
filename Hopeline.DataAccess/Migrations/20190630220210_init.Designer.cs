@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hopeline.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20190624210510_addRes_cate2")]
-    partial class addRes_cate2
+    [Migration("20190630220210_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -65,7 +65,7 @@ namespace Hopeline.DataAccess.Migrations
 
                     b.Property<byte[]>("image");
 
-                    b.Property<int?>("resource_categoryId");
+                    b.Property<int>("resource_categoryId");
 
                     b.Property<string>("title")
                         .IsRequired()
@@ -135,7 +135,9 @@ namespace Hopeline.DataAccess.Migrations
                 {
                     b.HasOne("Hopeline.DataAccess.Entities.Resource_Category", "resource_category")
                         .WithMany("resources")
-                        .HasForeignKey("resource_categoryId");
+                        .HasForeignKey("resource_categoryId")
+                        .HasConstraintName("Foreign_key_resource_category")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

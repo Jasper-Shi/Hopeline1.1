@@ -1,0 +1,19 @@
+.vertical-list{
+  width:100%
+}
+.vertical-list li a{
+  background-color:#eee;
+  padding:12px;
+  color:black;
+}
+
+  .vertical-list li a:hover {
+    background-color: #0094ff;
+    padding: 12px;
+    color: black;
+  }
+  .vertical-list li a.active {
+    background-color: #0094ff;
+    padding:12px;
+    color:black;
+  }
